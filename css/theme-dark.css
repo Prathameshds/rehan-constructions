@@ -1,0 +1,25 @@
+/* ===== DARK THEME ===== */
+:root {
+    --bg-primary: #0d0d1a;
+    --bg-secondary: #13131f;
+    --bg-card: #1a1a2e;
+    --bg-navbar: rgba(13, 13, 26, 0.97);
+    --bg-footer: #080812;
+    --text-primary: #f0ece4;
+    --text-secondary: #b0aac8;
+    --text-muted: #6060a0;
+    --text-footer: #8888aa;
+    --accent: #e8a020;
+    --accent-hover: #ffc040;
+    --accent-light: rgba(232, 160, 32, 0.12);
+    --border: rgba(255, 255, 255, 0.08);
+    --shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    --shadow-hover: 0 12px 40px rgba(232, 160, 32, 0.25);
+    --hero-overlay: linear-gradient(135deg, rgba(13, 13, 26, 0.85) 0%, rgba(232, 160, 32, 0.25) 100%);
+    --section-alt: #111122;
+    --stat-bg: #1a1a2e;
+    --nav-link: #f0ece4;
+    --nav-link-hover: #e8a020;
+    --card-border: rgba(232, 160, 32, 0.2);
+    --toggler-filter: invert(1);
+}

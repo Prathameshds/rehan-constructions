@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard – Rehan Constructions</title>
+    <link rel="stylesheet" id="theme-css" href="css/theme-light.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background 0.4s, color 0.4s;
+            overflow-x: hidden;
+        }
+
+        /* App Layout */
+        .app-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 200;
+            transition: background 0.4s, transform 0.3s;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-logo-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.25s;
+            margin-bottom: 4px;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            width: 18px;
+            text-align: center;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .nav-item:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .nav-item.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .nav-section-label {
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 8px 14px 4px;
+            font-weight: 600;
+        }
+
+        /* Theme Switcher in sidebar */
+        .sidebar-theme {
+            padding: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-theme-label {
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+            padding: 0 4px;
+        }
+
+        .theme-pills {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .theme-pill {
+            flex: 1;
+            min-width: 60px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            justify-content: center;
+        }
+
+        .theme-pill:hover,
+        .theme-pill.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--accent-light);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .user-details span {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .user-details small {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .btn-logout {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 9px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.25s;
+        }
+
+        .btn-logout:hover {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
+
+        /* Sidebar overlay mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 190;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin 0.3s;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background 0.4s;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.25s;
+        }
+
+        .btn-icon:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .sidebar-toggle-btn {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 10px;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 24px;
+            flex: 1;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .stat-icon.green {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .stat-icon.orange {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        .stat-icon.purple {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .stat-icon.red {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .stat-icon.success {
+            background: #d1fae5;
+            color: #16a34a;
+        }
+
+        .stat-content h3 {
+            font-family: 'Bebas Neue', display;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Card */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: background 0.4s;
+        }
+
+        .card-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .card-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Form Styles */
+        .form-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-primary);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .form-control[readonly] {
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            padding-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1.5px solid var(--border);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            font-size: 0.78rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm.btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-sm.btn-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-sm.btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-sm.btn-danger:hover {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .data-table th {
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+            vertical-align: middle;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--accent-light);
+        }
+
+        .data-table tfoot td {
+            font-size: 0.9rem;
+            border-top: 2px solid var(--border);
+            background: var(--bg-primary);
+        }
+
+        .loading-cell {
+            text-align: center;
+            padding: 40px 20px !important;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Filters */
+        .filter-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 7px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .filter-select:focus {
+            border-color: var(--accent);
+        }
+
+        .date-range {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .date-input {
+            padding: 7px 10px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .date-input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-small {
+            padding: 7px 14px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-small:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Activity Timeline */
+        .activity-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .activity-item:hover {
+            border-color: var(--accent);
+        }
+
+        .activity-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .activity-content p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Export buttons */
+        .export-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar-toggle-btn {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-content {
+                padding: 16px;
+            }
+
+            .card-body {
+                padding: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-group {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon"><i class="fas fa-hard-hat"></i></div>
+                <div class="sidebar-logo-text">Rehan<br />Constructions</div>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-section-label">Main</div>
+                <a class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+                </a>
+                <div class="nav-section-label mt-2">Management</div>
+                <a class="nav-item" data-page="deals">
+                    <i class="fas fa-handshake"></i><span>Deals & Projects</span>
+                </a>
+                <a class="nav-item" data-page="workers">
+                    <i class="fas fa-users"></i><span>Worker Management</span>
+                </a>
+                <a class="nav-item" data-page="materials">
+                    <i class="fas fa-tools"></i><span>Material Management</span>
+                </a>
+                <div class="nav-section-label mt-2">Finance</div>
+                <a class="nav-item" data-page="pending-balance">
+                    <i class="fas fa-exclamation-circle"></i><span>Pending Balance</span>
+                </a>
+                <a class="nav-item" data-page="reports">
+                    <i class="fas fa-chart-bar"></i><span>Reports</span>
+                </a>
+            </nav>
+
+            <!-- Theme Switcher -->
+            <div class="sidebar-theme">
+                <div class="sidebar-theme-label">Theme</div>
+                <div class="theme-pills">
+                    <button class="theme-pill active" data-theme="light">☀️ Light</button>
+                    <button class="theme-pill" data-theme="dark">🌙 Dark</button>
+                    <button class="theme-pill" data-theme="industrial">⚙️ Steel</button>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar"><i class="fas fa-user"></i></div>
+                    <div class="user-details">
+                        <span id="user-display-name">User</span>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+                <button class="btn-logout" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">Dashboard</h1>
+                <button class="btn-icon" id="refresh-data" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+                <a href="index.html" class="btn-icon" title="Home"><i class="fas fa-home"></i></a>
+            </header>
+
+            <div class="page-content">
+
+                <!-- ===== DASHBOARD PAGE ===== -->
+                <div class="page active" id="dashboard-page">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue"><i class="fas fa-project-diagram"></i></div>
+                            <div class="stat-content">
+                                <h3 id="total-ongoing-deals">0</h3>
+                                <p>Ongoing Deals</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green"><i class="fas fa-money-bill-wave"></i></div>
+                            <div class="stat-content">
+                                <h3 id="advance-collected">₹0</h3>
+                                <p>Advance Collected</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange"><i class="fas fa-balance-scale"></i></div>
+                            <div class="stat-content">
+                                <h3 id="remaining-balance">₹0</h3>
+                                <p>Remaining Balance</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple"><i class="fas fa-hard-hat"></i></div>
+                            <div class="stat-content">
+                                <h3 id="total-worker-expenses">₹0</h3>
+                                <p>Worker Expenses</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red"><i class="fas fa-boxes"></i></div>
+                            <div class="stat-content">
+                                <h3 id="total-material-expenses">₹0</h3>
+                                <p>Material Expenses</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success"><i class="fas fa-chart-line"></i></div>
+                            <div class="stat-content">
+                                <h3 id="total-profit">₹0</h3>
+                                <p>Projected Profit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recent Activity</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-timeline" id="recent-activity-list">
+                                <div class="activity-item">
+                                    <p style="color:var(--text-muted)">Loading activity...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== DEALS PAGE ===== -->
+                <div class="page" id="deals-page">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Add New Deal / Project</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="deal-form">
+                                <input type="hidden" id="deal-id" />
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="venue">Venue <span class="required">*</span></label>
+                                        <input type="text" id="venue" class="form-control" placeholder="Enter venue"
+                                            required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customer-name">Customer Name <span class="required">*</span></label>
+                                        <input type="text" id="customer-name" class="form-control"
+                                            placeholder="Enter customer name" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="date-timing">Date &amp; Timing <span
+                                                class="required">*</span></label>
+                                        <input type="datetime-local" id="date-timing" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="square-footage">Square Footage <span
+                                                class="required">*</span></label>
+                                        <input type="number" id="square-footage" class="form-control"
+                                            placeholder="e.g. 1200" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rate-per-foot">Rate per Sq.Ft (₹) <span
+                                                class="required">*</span></label>
+                                        <input type="number" id="rate-per-foot" class="form-control"
+                                            placeholder="e.g. 450" step="0.01" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="project-estimate">Project Estimate (₹)</label>
+                                        <input type="number" id="project-estimate" class="form-control" step="0.01"
+                                            readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="advance">Advance Paid (₹) <span class="required">*</span></label>
+                                        <input type="number" id="advance" class="form-control"
+                                            placeholder="Enter advance" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="balance">Balance Remaining (₹)</label>
+                                        <input type="number" id="balance" class="form-control" step="0.01" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn-secondary" id="cancel-deal-btn">Cancel</button>
+                                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save
+                                        Deal</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recent Deals</h2>
+                            <div class="filter-controls">
+                                <select id="deal-filter-period" class="filter-select">
+                                    <option value="all">All Time</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                    <option value="year">This Year</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                                <div class="date-range" id="deal-date-range" style="display:none;">
+                                    <input type="date" id="deal-start-date" class="date-input" />
+                                    <span style="color:var(--text-muted)">to</span>
+                                    <input type="date" id="deal-end-date" class="date-input" />
+                                    <button class="btn-small" id="apply-deal-filter">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Venue</th>
+                                            <th>Customer</th>
+                                            <th>Date</th>
+                                            <th>Estimate</th>
+                                            <th>Advance</th>
+                                            <th>Balance</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="deals-table-body">
+                                        <tr>
+                                            <td colspan="7" class="loading-cell"><i class="fas fa-spinner fa-spin"></i>
+                                                Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== WORKERS PAGE ===== -->
+                <div class="page" id="workers-page">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Add Worker</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="worker-form">
+                                <input type="hidden" id="worker-id" />
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="worker-project">Select Project <span
+                                                class="required">*</span></label>
+                                        <select id="worker-project" class="form-control" required>
+                                            <option value="">Select Project</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="worker-name">Worker Name <span class="required">*</span></label>
+                                        <input type="text" id="worker-name" class="form-control"
+                                            placeholder="Enter worker name" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="paid-amount">Paid Amount (₹) <span class="required">*</span></label>
+                                        <input type="number" id="paid-amount" class="form-control"
+                                            placeholder="Amount paid" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="remaining-amount">Remaining Amount (₹) <span
+                                                class="required">*</span></label>
+                                        <input type="number" id="remaining-amount" class="form-control"
+                                            placeholder="Amount remaining" step="0.01" required />
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn-secondary" id="cancel-worker-btn">Cancel</button>
+                                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save
+                                        Worker</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Worker List</h2>
+                            <select id="worker-filter-project" class="filter-select">
+                                <option value="all">All Projects</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Worker Name</th>
+                                            <th>Paid Amount</th>
+                                            <th>Remaining</th>
+                                            <th>Total</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="workers-table-body">
+                                        <tr>
+                                            <td colspan="6" class="loading-cell"><i class="fas fa-spinner fa-spin"></i>
+                                                Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"><strong>Total</strong></td>
+                                            <td><strong id="total-paid">₹0</strong></td>
+                                            <td><strong id="total-remaining">₹0</strong></td>
+                                            <td><strong id="total-worker-expense">₹0</strong></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MATERIALS PAGE ===== -->
+                <div class="page" id="materials-page">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Add Material Expense</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="material-form">
+                                <input type="hidden" id="material-id" />
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="material-project">Select Project <span
+                                                class="required">*</span></label>
+                                        <select id="material-project" class="form-control" required>
+                                            <option value="">Select Project</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="material-type">Material Type <span class="required">*</span></label>
+                                        <select id="material-type" class="form-control" required>
+                                            <option value="">Select Material</option>
+                                            <option value="slab-plates">Slab Plates</option>
+                                            <option value="column-prox">Column Prox</option>
+                                            <option value="column-pattern">Column Pattern</option>
+                                            <option value="mixer-machine">Mixer Machine</option>
+                                            <option value="slab-gang">Slab Gang</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="quantity">Quantity <span class="required">*</span></label>
+                                        <input type="number" id="quantity" class="form-control"
+                                            placeholder="Enter quantity" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="material-rate">Rate per Day (₹) <span
+                                                class="required">*</span></label>
+                                        <input type="number" id="material-rate" class="form-control"
+                                            placeholder="Rate per day" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lease-days">Lease Days <span class="required">*</span></label>
+                                        <input type="number" id="lease-days" class="form-control"
+                                            placeholder="No. of days" step="1" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="material-total-amount">Total Amount (₹)</label>
+                                        <input type="number" id="material-total-amount" class="form-control" step="0.01"
+                                            readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="material-paid">Amount Paid (₹) <span
+                                                class="required">*</span></label>
+                                        <input type="number" id="material-paid" class="form-control"
+                                            placeholder="Amount paid" step="0.01" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="material-balance">Balance Remaining (₹)</label>
+                                        <input type="number" id="material-balance" class="form-control" step="0.01"
+                                            readonly />
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn-secondary" id="cancel-material-btn">Cancel</button>
+                                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save
+                                        Material</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Material Expenses</h2>
+                            <select id="material-filter-project" class="filter-select">
+                                <option value="all">All Projects</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Material</th>
+                                            <th>Qty</th>
+                                            <th>Rate/Day</th>
+                                            <th>Days</th>
+                                            <th>Total</th>
+                                            <th>Paid</th>
+                                            <th>Balance</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="materials-table-body">
+                                        <tr>
+                                            <td colspan="9" class="loading-cell"><i class="fas fa-spinner fa-spin"></i>
+                                                Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5"><strong>Total</strong></td>
+                                            <td><strong id="total-material-expense">₹0</strong></td>
+                                            <td><strong id="total-material-paid">₹0</strong></td>
+                                            <td><strong id="total-material-balance">₹0</strong></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PENDING BALANCE PAGE ===== -->
+                <div class="page" id="pending-balance-page">
+                    <div class="stats-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+                        <div class="stat-card">
+                            <div class="stat-icon orange"><i class="fas fa-handshake"></i></div>
+                            <div class="stat-content">
+                                <h3 id="pending-deal-balance">₹0</h3>
+                                <p>Deal Balance Remaining</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red"><i class="fas fa-user-clock"></i></div>
+                            <div class="stat-content">
+                                <h3 id="pending-worker-balance">₹0</h3>
+                                <p>Worker Payment Pending</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple"><i class="fas fa-boxes"></i></div>
+                            <div class="stat-content">
+                                <h3 id="pending-material-balance">₹0</h3>
+                                <p>Material Payment Pending</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Deal Balance Details</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Customer</th>
+                                            <th>Estimate</th>
+                                            <th>Advance Paid</th>
+                                            <th>Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pending-deals-table-body">
+                                        <tr>
+                                            <td colspan="5" class="loading-cell">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Worker Payment Details</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Worker</th>
+                                            <th>Total</th>
+                                            <th>Paid</th>
+                                            <th>Remaining</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pending-workers-table-body">
+                                        <tr>
+                                            <td colspan="5" class="loading-cell">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Material Payment Details</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Material</th>
+                                            <th>Total</th>
+                                            <th>Paid</th>
+                                            <th>Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pending-materials-table-body">
+                                        <tr>
+                                            <td colspan="5" class="loading-cell">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== REPORTS PAGE ===== -->
+                <div class="page" id="reports-page">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Financial Summary Report</h2>
+                            <div class="filter-controls">
+                                <select id="report-filter-period" class="filter-select">
+                                    <option value="all">All Time</option>
+                                    <option value="week">Last Week</option>
+                                    <option value="month" selected>Last Month</option>
+                                    <option value="year">Last Year</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                                <select id="report-project-filter" class="filter-select">
+                                    <option value="all">All Projects</option>
+                                </select>
+                                <div class="date-range" id="report-date-range" style="display:none;">
+                                    <input type="date" id="report-start-date" class="date-input" />
+                                    <span style="color:var(--text-muted)">to</span>
+                                    <input type="date" id="report-end-date" class="date-input" />
+                                    <button class="btn-small" id="apply-report-filter">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="export-actions">
+                                <button class="btn-secondary" id="export-pdf"><i class="fas fa-file-pdf"></i> Export
+                                    PDF</button>
+                                <button class="btn-secondary" id="export-excel"><i class="fas fa-file-excel"></i> Export
+                                    Excel</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Deal Value</th>
+                                            <th>Advance</th>
+                                            <th>Balance</th>
+                                            <th>Worker Exp.</th>
+                                            <th>Material Exp.</th>
+                                            <th>Profit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reports-table-body">
+                                        <tr>
+                                            <td colspan="7" class="loading-cell">Select a filter to generate report</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td><strong>Total</strong></td>
+                                            <td><strong id="report-total-value">₹0</strong></td>
+                                            <td><strong id="report-total-advance">₹0</strong></td>
+                                            <td><strong id="report-total-balance">₹0</strong></td>
+                                            <td><strong id="report-total-worker">₹0</strong></td>
+                                            <td><strong id="report-total-material">₹0</strong></td>
+                                            <td><strong id="report-total-profit">₹0</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- end page-content -->
+
+            <!-- Footer inside dashboard -->
+            <footer
+                style="background:var(--bg-footer);color:var(--text-footer);text-align:center;padding:14px 20px;font-size:0.78rem;border-top:1px solid var(--border);transition:background 0.4s;">
+                © 2026 All Rights Reserved | Developed by
+                <strong style="color:var(--accent)">Sanjana Dadasao Sapkal</strong>,
+                <strong style="color:var(--accent)">Prathamesh Dattatray Shirguppe</strong>,
+                <strong style="color:var(--accent)">Sakshi Santosh Shinde</strong> &amp;
+                <strong style="color:var(--accent)">Gauri Dhanaji Bankar</strong>
+                — <span style="color:var(--accent)">Dept. of IT</span>, Rajarambapu Institute of Technology
+            </footer>
+        </div><!-- end main-content -->
+    </div><!-- end app-wrapper -->
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/deals.js"></script>
+    <script src="js/workers.js"></script>
+    <script src="js/materials.js"></script>
+    <script src="js/reports.js"></script>
+    <script>
+        // Dashboard-specific theme manager (reuses same CSS logic)
+        document.querySelectorAll('[data-theme]').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const theme = this.dataset.theme;
+                const cssLink = document.getElementById('theme-css');
+                if (cssLink) cssLink.href = `css/theme-${theme}.css`;
+                localStorage.setItem('rehan-theme', theme);
+                document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+            });
+        });
+
+        // Load saved theme
+        (function () {
+            const saved = localStorage.getItem('rehan-theme') || 'light';
+            const cssLink = document.getElementById('theme-css');
+            if (cssLink) cssLink.href = `css/theme-${saved}.css`;
+            document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b.dataset.theme === saved));
+        })();
+    </script>
+</body>
+
+</html>

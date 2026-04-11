@@ -1,0 +1,25 @@
+/* ===== LIGHT THEME ===== */
+:root {
+    --bg-primary: #f8f5f0;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-navbar: rgba(255, 255, 255, 0.95);
+    --bg-footer: #1a1a2e;
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a6a;
+    --text-muted: #8888aa;
+    --text-footer: #ccc;
+    --accent: #c8860a;
+    --accent-hover: #a36b08;
+    --accent-light: rgba(200, 134, 10, 0.12);
+    --border: rgba(0, 0, 0, 0.1);
+    --shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 12px 40px rgba(200, 134, 10, 0.18);
+    --hero-overlay: linear-gradient(135deg, rgba(26, 26, 46, 0.75) 0%, rgba(200, 134, 10, 0.4) 100%);
+    --section-alt: #f0ebe3;
+    --stat-bg: #fff;
+    --nav-link: #1a1a2e;
+    --nav-link-hover: #c8860a;
+    --card-border: rgba(200, 134, 10, 0.15);
+    --toggler-filter: none;
+}
