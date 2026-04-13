@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "users": {
+      ".read": true,
+      ".write": true
+    },
+    "deals": {
+      ".indexOn": ["userId"],
+      ".read": true,
+      ".write": true
+    },
+    "workers": {
+      ".indexOn": ["userId", "projectId"],
+      ".read": true,
+      ".write": true
+    },
+    "materials": {
+      ".indexOn": ["userId", "projectId"],
+      ".read": true,
+      ".write": true
+    }
+  }
+}
